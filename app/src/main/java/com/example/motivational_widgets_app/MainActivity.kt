@@ -29,14 +29,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MotivationalApp() {
-    val quotes = listOf(
-        Quote("Nelson Mandela", "It always seems impossible until it’s done."),
-        Quote("Tony Robbins", "The only limit to your impact is your imagination and commitment."),
-        Quote("Steve Jobs", "Stay hungry, stay foolish."),
-        Quote("Zig Ziglar", "You don’t have to be great to start, but you have to start to be great."),
-        Quote("Maya Angelou", "You will face many defeats in life, but never let yourself be defeated.")
-    )
-
     var currentQuote by remember { mutableStateOf<Quote?>(null) }
 
     Box(
@@ -45,11 +37,10 @@ fun MotivationalApp() {
             .padding(16.dp)
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Custom Header
+            // Header
             Text(
                 text = "Motivational Widgets",
                 fontSize = 28.sp,
@@ -60,10 +51,10 @@ fun MotivationalApp() {
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Center Button + Quote
+            // Button + Quote
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(onClick = {
-                    currentQuote = quotes.random()
+                    currentQuote = sampleQuotes.random()
                 }) {
                     Text("Inspire Me")
                 }
@@ -84,5 +75,3 @@ fun MotivationalApp() {
         }
     }
 }
-
-data class Quote(val author: String, val text: String)
