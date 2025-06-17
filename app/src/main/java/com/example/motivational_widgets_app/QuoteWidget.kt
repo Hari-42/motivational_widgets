@@ -56,7 +56,10 @@ class QuoteWidget : AppWidgetProvider() {
         val quote = sampleQuotes.random()
         val views = RemoteViews(context.packageName, R.layout.quote_widget)
 
-        val minHeight = options?.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) ?: 70
+        // ✅ FIX: Always get actual widget options
+        val actualOptions = options ?: appWidgetManager.getAppWidgetOptions(appWidgetId)
+        val minHeight = actualOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 70)
+
         val textSize = when {
             minHeight < 80 -> 10f
             minHeight < 140 -> 14f
@@ -67,6 +70,7 @@ class QuoteWidget : AppWidgetProvider() {
         views.setTextViewText(R.id.quote_author, "- ${quote.author}")
         views.setTextViewTextSize(R.id.quote_text, TypedValue.COMPLEX_UNIT_SP, textSize)
 
+        // Set up click to refresh
         val intent = Intent(context, QuoteWidget::class.java).apply {
             action = ACTION_REFRESH_QUOTE
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
